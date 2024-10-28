@@ -1,8 +1,8 @@
 MAKEFILE_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST))))
 NVIDIA_CONFTEST ?= $(MAKEFILE_DIR)/out/nvidia-conftest
 
-all: nvidia-nvgpu-modules nvidia-oot-modules vc-mipi-driver-modules
-install: nvidia-modules-install vc-mipi-driver-modules-install
+all: nvidia-nvgpu-modules nvidia-oot-modules vc-mipi-driver-modules rp-imx296-modules
+install: nvidia-modules-install vc-mipi-driver-modules-install rp-imx296-modules-install
 
 # Build a tarball for installation on Nano
 package:
@@ -26,6 +26,27 @@ vc-mipi-driver-modules-install: vc-mipi-driver-modules
 		srctree.nvidia-oot=$(MAKEFILE_DIR)/nvidia-oot \
 		KERNEL_SRC=$(KERNEL_SRC) \
 		-C $(MAKEFILE_DIR)/vc-mipi-driver install
+
+
+rp-imx296-modules: nvidia-oot-modules
+	$(MAKE) \
+		KBUILD_EXTRA_SYMBOLS=$(MAKEFILE_DIR)/nvidia-oot/Module.symvers \
+		CONFIG_TEGRA_OOT_MODULE=y \
+		srctree.nvconftest=$(NVIDIA_CONFTEST) \
+		srctree.nvidia-oot=$(MAKEFILE_DIR)/nvidia-oot \
+		srctree.rp-imx296=$(MAKEFILE_DIR)/imx296 \
+		M=$(MAKEFILE_DIR)/imx296 \
+		-C $(KERNEL_SRC)
+
+rp-imx296-modules-install: rp-imx296-modules
+	$(MAKE) \
+		KBUILD_EXTRA_SYMBOLS=$(MAKEFILE_DIR)/nvidia-oot/Module.symvers \
+		CONFIG_TEGRA_OOT_MODULE=y \
+		srctree.nvconftest=$(NVIDIA_CONFTEST) \
+		srctree.nvidia-oot=$(MAKEFILE_DIR)/nvidia-oot \
+		srctree.rp-imx296=$(MAKEFILE_DIR)/imx296 \
+		KERNEL_SRC=$(KERNEL_SRC) \
+		-C $(MAKEFILE_DIR)/imx296 install
 
 
 nvidia-oot-conftest:
@@ -111,3 +132,6 @@ clean:
 		srctree.nvconftest=$(NVIDIA_CONFTEST) \
 		srctree.hwpm=$(MAKEFILE_DIR)/nvidia-hwpm \
 		M=$(MAKEFILE_DIR)/nvidia-oot -C $(KERNEL_SRC) clean
+	$(MAKE) \
+		srctree.rp-imx296=$(MAKEFILE_DIR)/imx296 \
+		M=$(MAKEFILE_DIR)/imx296 -C $(KERNEL_SRC) clean

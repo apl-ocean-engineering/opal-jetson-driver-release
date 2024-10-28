@@ -4,3 +4,5 @@ out/
 
 install.tar.bz2
 install/
+
+.idea/
