@@ -2,12 +2,13 @@ MAKEFILE_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST))))
 NVIDIA_CONFTEST ?= $(MAKEFILE_DIR)/out/nvidia-conftest
 
 all: nvidia-nvgpu-modules nvidia-oot-modules vc-mipi-driver-modules rp-imx296-modules
-install: nvidia-modules-install vc-mipi-driver-modules-install rp-imx296-modules-install
+install: nvidia-modules-install vc-mipi-driver-modules-install rp-imx296-modules-install 
 
 # Build a tarball for installation on Nano
-package:
-	sudo chown -R root:root $(INSTALL_MOD_PATH)/
-	tar -C install -cjvf install.tar.bz2 lib/ boot/
+package: install
+	cp install.sh $(INSTALL_MOD_PATH)/
+	chmod 755 $(INSTALL_MOD_PATH)/install.sh
+	tar -C $(INSTALL_MOD_PATH)/ -cjvf install.tar.bz2 lib/ boot/ install.sh
 
 vc-mipi-driver-modules: nvidia-oot-modules
 	$(MAKE) -j $(NPROC) \
@@ -135,3 +136,5 @@ clean:
 	$(MAKE) \
 		srctree.rp-imx296=$(MAKEFILE_DIR)/imx296 \
 		M=$(MAKEFILE_DIR)/imx296 -C $(KERNEL_SRC) clean
+
+.PHONY: clean package install all
