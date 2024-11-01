@@ -1,6 +1,12 @@
 ARCH=arm64
-CROSS_COMPILE=$(pwd)/aarch64--glibc--stable-2022.08-1/bin/aarch64-buildroot-linux-gnu-
-KERNEL_SRC=Linux_for_Tegra/kernel/linux-headers-*-linux_x86_64/3rdparty/canonical/linux-jammy/
+
+# Odd that I can't put these here are Makefile variables rather than env variables
+# in setup.sh
+#
+# A mystery for another day
+#
+#CROSS_COMPILE=aarch64--glibc--stable-2022.08-1/bin/aarch64-buildroot-linux-gnu-
+#KERNEL_SRC=Linux_for_Tegra/kernel/linux-headers-5.15.148-tegra-linux_x86_64/3rdparty/canonical/linux-jammy/
 
 MAKEFILE_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST))))
 NVIDIA_CONFTEST ?= $(MAKEFILE_DIR)/out/nvidia-conftest
@@ -136,10 +142,14 @@ clean:
 	$(MAKE) \
 		srctree.nvidia-oot=$(MAKEFILE_DIR)/nvidia-oot \
 		srctree.nvconftest=$(NVIDIA_CONFTEST) \
-		srctree.hwpm=$(MAKEFILE_DIR)/nvidia-hwpm \
-		M=$(MAKEFILE_DIR)/nvidia-oot -C $(KERNEL_SRC) clean
+		M=$(MAKEFILE_DIR)/nvidia-oot \
+		-C $(KERNEL_SRC) clean
 	$(MAKE) \
 		srctree.rp-imx296=$(MAKEFILE_DIR)/imx296 \
 		M=$(MAKEFILE_DIR)/imx296 -C $(KERNEL_SRC) clean
+	$(MAKE) \
+		srctree.nvidia-oot=$(MAKEFILE_DIR)/nvidia-oot \
+		KERNEL_SRC=$(KERNEL_SRC) \
+		-C $(MAKEFILE_DIR)/vc-mipi-driver clean
 
 .PHONY: clean package install all

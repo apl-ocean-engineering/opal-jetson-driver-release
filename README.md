@@ -1,4 +1,4 @@
-n.b. This repository is a mashup of the [Allied Vision Alvium CSI Driver for Jetpack 6](https://github.com/alliedvision/alvium-jetson-driver-release) and the [Vision Components MIPI driver](https://github.com/VC-MIPI-modules/vc_mipi_nvidia)
+n.b. This repository is a mashup of the out-of-tree (OOT) kernel module build structure from [Allied Vision Alvium CSI Driver for Jetpack 6](https://github.com/alliedvision/alvium-jetson-driver-release), with the AVT kernel module removed, and the [Vision Components MIPI driver](https://github.com/VC-MIPI-modules/vc_mipi_nvidia) added.
 
 # Vision Components MIPI driver for Jetpack 6 
 
@@ -28,6 +28,12 @@ The `vc-mipi-driver` contain copies the VC module sources [from their repo](http
         cd ../../
         tar -xf aarch64--glibc--stable-2022.08-1.tar.bz2
    ```
+
+6. Set the appropriate environment variables (I can't seem to put these in the Makefile, a project for later):
+
+    ```shell
+        source setup.sh
+    ```
 
 7. Build everything:
     ```shell
