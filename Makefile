@@ -40,6 +40,27 @@ vc-mipi-driver-modules-install: vc-mipi-driver-modules
 		-C $(MAKEFILE_DIR)/vc-mipi-driver install
 
 
+rp-imx296-modules: nvidia-oot-modules
+	$(MAKE) \
+		KBUILD_EXTRA_SYMBOLS=$(MAKEFILE_DIR)/nvidia-oot/Module.symvers \
+		CONFIG_TEGRA_OOT_MODULE=y \
+		srctree.nvconftest=$(NVIDIA_CONFTEST) \
+		srctree.nvidia-oot=$(MAKEFILE_DIR)/nvidia-oot \
+		srctree.rp-imx296=$(MAKEFILE_DIR)/imx296 \
+		M=$(MAKEFILE_DIR)/imx296 \
+		-C $(KERNEL_SRC)
+
+rp-imx296-modules-install: rp-imx296-modules
+	$(MAKE) \
+		KBUILD_EXTRA_SYMBOLS=$(MAKEFILE_DIR)/nvidia-oot/Module.symvers \
+		CONFIG_TEGRA_OOT_MODULE=y \
+		srctree.nvconftest=$(NVIDIA_CONFTEST) \
+		srctree.nvidia-oot=$(MAKEFILE_DIR)/nvidia-oot \
+		srctree.rp-imx296=$(MAKEFILE_DIR)/imx296 \
+		KERNEL_SRC=$(KERNEL_SRC) \
+		-C $(MAKEFILE_DIR)/imx296 install
+
+
 nvidia-oot-conftest:
 	mkdir -p $(NVIDIA_CONFTEST)/nvidia;
 	cp -av $(MAKEFILE_DIR)/nvidia-oot/scripts/conftest/* $(NVIDIA_CONFTEST)/nvidia
@@ -123,6 +144,9 @@ clean:
 		srctree.nvconftest=$(NVIDIA_CONFTEST) \
 		M=$(MAKEFILE_DIR)/nvidia-oot \
 		-C $(KERNEL_SRC) clean
+	$(MAKE) \
+		srctree.rp-imx296=$(MAKEFILE_DIR)/imx296 \
+		M=$(MAKEFILE_DIR)/imx296 -C $(KERNEL_SRC) clean
 	$(MAKE) \
 		srctree.nvidia-oot=$(MAKEFILE_DIR)/nvidia-oot \
 		KERNEL_SRC=$(KERNEL_SRC) \

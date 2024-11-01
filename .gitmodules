@@ -10,3 +10,6 @@
 [submodule "nvidia-nvgpu"]
 	url = https://nv-tegra.nvidia.com/r/linux-nvgpu.git
 	path = nvidia-nvgpu
+[submodule "imx296"]
+	path = imx296
+	url = git@github.com:clydemcqueen/imx296.git
