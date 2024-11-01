@@ -10,7 +10,7 @@ package:
 	tar -C install -cjvf install.tar.bz2 lib/ boot/
 
 vc-mipi-driver-modules: nvidia-oot-modules
-	$(MAKE) \
+	$(MAKE) -j $(NPROC) \
 		KBUILD_EXTRA_SYMBOLS=$(MAKEFILE_DIR)/nvidia-oot/Module.symvers \
 		CONFIG_TEGRA_OOT_MODULE=y \
 		srctree.nvidia-oot=$(MAKEFILE_DIR)/nvidia-oot \
@@ -39,7 +39,7 @@ nvidia-oot-conftest:
 		-f $(NVIDIA_CONFTEST)/nvidia/Makefile
 		
 nvidia-hwpm-modules: nvidia-oot-conftest
-	$(MAKE) \
+	$(MAKE) -j $(NPROC) \
 		CONFIG_TEGRA_OOT_MODULE=m \
 		srctree.hwpm=$(MAKEFILE_DIR)/nvidia-hwpm \
 		srctree.nvconftest=$(NVIDIA_CONFTEST) \
@@ -59,7 +59,7 @@ nvidia-hwpm-modules-install: nvidia-hwpm-modules
 		
 nvidia-oot-modules: nvidia-oot-conftest nvidia-hwpm-modules
 	cp -av $(MAKEFILE_DIR)/nvidia-nvethernetrm $(MAKEFILE_DIR)/nvidia-oot/drivers/net/ethernet/nvidia/nvethernet/nvethernetrm
-	$(MAKE) \
+	$(MAKE) -j $(NPROC) \
 		CONFIG_TEGRA_OOT_MODULE=m \
 		srctree.nvidia-oot=$(MAKEFILE_DIR)/nvidia-oot \
 		srctree.nvconftest=$(NVIDIA_CONFTEST) \
@@ -81,7 +81,7 @@ nvidia-oot-modules-install: nvidia-oot-modules
 		modules_install
 
 nvidia-nvgpu-modules: nvidia-oot-modules nvidia-oot-conftest
-	$(MAKE) \
+	$(MAKE) -j $(NPROC) \
 		CONFIG_TEGRA_OOT_MODULE=m \
 		KBUILD_EXTRA_SYMBOLS=$(MAKEFILE_DIR)/nvidia-oot/Module.symvers \
 		srctree.nvidia-oot=$(MAKEFILE_DIR)/nvidia-oot \

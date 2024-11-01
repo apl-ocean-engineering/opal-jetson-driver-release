@@ -16,7 +16,7 @@ The `vc-mipi-driver` contain copies the VC module sources [from their repo](http
 2. Download the Jetson Linux driver package (BSP) and cross compiler from: [Jetson Linux Downloads](https://developer.nvidia.com/embedded/jetson-linux)
 3. Extract the driver package **in this directory**: 
     ```shell
-        tar -xf jetson_linux_r36*.bz2
+        tar -xf Jetson_Linux_r36*.tbz2
     ```
 4. Extract the kernel headers from the driver package in the `Linux_for_Tegra/kernel` directory:
     ```shell
@@ -68,13 +68,13 @@ At this point the rebuilt kernel modules -- including both the new VC modules an
 3. Instruct the bootloader to apply the device tree overlay on startup.  This can be done manually by editing the `/boot/extlinux/extlinux.conf` file, though the `jetson-io` wrapper can be used to automated the process, either graphically with:
 
    ```shell
-       sudo /opt/nvidio/jetson-io/jetson-io.py
+       sudo /opt/nvidia/jetson-io/jetson-io.py
    ```
 
    or
 
    ```shell
-       sudo ./config-by-hardware.py -n 2="Camera VCMIPI Dual"
+       sudo /opt/nvidia/jetson-io/config-by-hardware.py -n 2="Camera VCMIPI Dual"
    ```
 
    Which instructs the scripts to install the overlay "Camera VCMIPI Dual" (this name is baked into the overlay file `tegra234-p3767-camera-p3768-vc_mipi-dual-imx.dtbo`) for header "2" (the CSI Camera header).
