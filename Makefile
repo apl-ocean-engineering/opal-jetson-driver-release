@@ -1,13 +1,19 @@
+ARCH=arm64
+CROSS_COMPILE=$(pwd)/aarch64--glibc--stable-2022.08-1/bin/aarch64-buildroot-linux-gnu-
+KERNEL_SRC=Linux_for_Tegra/kernel/linux-headers-*-linux_x86_64/3rdparty/canonical/linux-jammy/
+
 MAKEFILE_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST))))
 NVIDIA_CONFTEST ?= $(MAKEFILE_DIR)/out/nvidia-conftest
+
+INSTALL_MOD_PATH = install/
 
 all: nvidia-nvgpu-modules nvidia-oot-modules vc-mipi-driver-modules
 install: nvidia-modules-install vc-mipi-driver-modules-install
 
 # Build a tarball for installation on Nano
-package:
-	sudo chown -R root:root $(INSTALL_MOD_PATH)/
-	tar -C install -cjvf install.tar.bz2 lib/ boot/
+package: install
+	install -m 755 install.sh $(INSTALL_MOD_PATH)
+	tar  -cjvf install.tar.bz2 $(INSTALL_MOD_PATH)
 
 vc-mipi-driver-modules: nvidia-oot-modules
 	$(MAKE) -j $(NPROC) \
@@ -111,3 +117,5 @@ clean:
 		srctree.nvconftest=$(NVIDIA_CONFTEST) \
 		srctree.hwpm=$(MAKEFILE_DIR)/nvidia-hwpm \
 		M=$(MAKEFILE_DIR)/nvidia-oot -C $(KERNEL_SRC) clean
+
+.PHONY: clean package install all

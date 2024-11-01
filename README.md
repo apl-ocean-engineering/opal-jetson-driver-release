@@ -28,41 +28,35 @@ The `vc-mipi-driver` contain copies the VC module sources [from their repo](http
         cd ../../
         tar -xf aarch64--glibc--stable-2022.08-1.tar.bz2
    ```
-6. Set the following environment variables ( `source setup.sh` is a convenience alias):
-    ```shell
-        export ARCH=arm64
-        export CROSS_COMPILE=$(pwd)/aarch64--glibc--stable-2022.08-1/bin/aarch64-buildroot-linux-gnu-
-        export KERNEL_SRC=Linux_for_Tegra/kernel/linux-headers-*-linux_x86_64/3rdparty/canonical/linux-jammy/kernel-source/
-
-        export INSTALL_MOD_PATH=$(pwd)/install
-    ```
 
 7. Build everything:
     ```shell
         make all 
     ```
 
-8. Install:
+8. Build a distributable package `install.tar.bz2`:
     ```shell
-        make install
+        make package
     ```
 
-At this point the rebuilt kernel modules -- including both the new VC modules and a few customized versions of NVidia camera handler modules -- and additional device tree overlays can be installed onto a Jetson.   This can be done either by building a new set of images and flashing them to the device (essentially replacing the install process done through SDK Manager), or by installing them on an already-running module.  For simplicity, my focus is the latter ....
+At this point the rebuilt kernel modules -- including both the new VC modules and a few customized versions of NVidia camera handler modules -- and additional device tree overlays can be installed onto a Jetson.  
+
+This can be done either by building a new set of images and flashing them to the device (essentially replacing the install process done through SDK Manager), or by installing them on an already-running module.  For simplicity, my focus is the latter ....
 
 ## Installing on a running Nano
 
-1. Copy the install directory to the device (called 'nano' in this case):
+1. Copy `install.tar.bz2`  to the device (called 'nano' in this case):
 
    ```shell
-        scp -r install nano:~
+        scp -r install.tar.bz2 nano:~
    ```
 
-2. Log into the device, and copy the files into place (this could be automated!)
+2. Log into the device, and run the install script:
 
    ```shell
        ssh nano
-       sudo cp -a install/lib/modules/5.15.148-tegra/updates /lib/modules/5.15.148-tegra
-       sudo cp -a install/boot/* /boot/
+       tar xvf install.tar.bz2
+       cd install && ./install.sh
    ```
 
 3. Instruct the bootloader to apply the device tree overlay on startup.  This can be done manually by editing the `/boot/extlinux/extlinux.conf` file, though the `jetson-io` wrapper can be used to automated the process, either graphically with:
