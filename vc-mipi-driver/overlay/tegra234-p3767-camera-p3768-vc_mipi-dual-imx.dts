@@ -3,7 +3,7 @@
 //
 // This file is derived from the VC "tegra234-p3767-camera-p3768-vc_mipi-dual.dts"
 //
-// But has VC_MIPI_MANUFACTURER removed to only work with IMX sensors
+// But has VC_MIPI_MANUFACTURER removed to only work with Sony IMX sensors for legibility
 // (not omnivision)
 
 /dts-v1/;
@@ -247,8 +247,8 @@ compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3768-0000+p3767-0001", "nv
                                                         // ----------------------------------------------------
                                                         // If you want to use GStreamer with nvarguscamerasrc
                                                         // you have to adjust this settings
-                                                        physical_w              = "1.000";
-                                                        physical_h              = "1.000";
+                                                        physical_w              = "4.968";
+                                                        physical_h              = "3.726";
                                                         // ----------------------------------------------------
                                                         // This node is needed by the Tegra framework.
                                                         // You don't have to change any settings if just want 
@@ -265,8 +265,8 @@ compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3768-0000+p3767-0001", "nv
                                                                 // you have to adjust this settings. 
                                                                 active_l                 = "0";
                                                                 active_t                 = "0";
-                                                                active_w                 = "0";
-                                                                active_h                 = "0";
+                                                                active_w                 = "1440";
+                                                                active_h                 = "1080";
                                                                 mode_type                = "bayer";
                                                                 pixel_phase              = "rggb";
                                                                 csi_pixel_bit_depth      = "10";
@@ -284,9 +284,9 @@ compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3768-0000+p3767-0001", "nv
                                                                 // For applications like argus_camera, there should 
                                                                 // be a minimal frame rate greater than zero!
                                                                 min_framerate            = "100";       // mHz
-                                                                max_framerate            = "60000";     // mHz
+                                                                max_framerate            = "60300";     // mHz
                                                                 step_framerate           = "100";       // mHz
-                                                                default_framerate        = "60000";     // mHz
+                                                                default_framerate        = "60300";     // mHz
                                                                 // ----------------------------------------------------
 
                                                                 gain_factor              = "1000";
@@ -347,8 +347,8 @@ compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3768-0000+p3767-0001", "nv
                                                         // ----------------------------------------------------
                                                         // If you want to use GStreamer with nvarguscamerasrc
                                                         // you have to adjust this settings
-                                                        physical_w              = "1.000";
-                                                        physical_h              = "1.000";
+                                                        physical_w              = "4.968";
+                                                        physical_h              = "3.726";
                                                         // ----------------------------------------------------
 
                                                         mode0 {
@@ -363,8 +363,8 @@ compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3768-0000+p3767-0001", "nv
                                                                 // you have to adjust this settings. 
                                                                 active_l                 = "0";
                                                                 active_t                 = "0";
-                                                                active_w                 = "0";
-                                                                active_h                 = "0";
+                                                                active_w                 = "1440";
+                                                                active_h                 = "1080";
                                                                 mode_type                = "bayer";
                                                                 pixel_phase              = "rggb";
                                                                 csi_pixel_bit_depth      = "10";
@@ -382,9 +382,9 @@ compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3768-0000+p3767-0001", "nv
                                                                 // For applications like argus_camera, there should 
                                                                 // be a minimal frame rate greater than zero!
                                                                 min_framerate            = "100";       // mHz
-                                                                max_framerate            = "60000";     // mHz
+                                                                max_framerate            = "60300";     // mHz
                                                                 step_framerate           = "100";       // mHz
-                                                                default_framerate        = "60000";     // mHz
+                                                                default_framerate        = "60300";     // mHz
                                                                 // ----------------------------------------------------
 
                                                                 gain_factor              = "1000";

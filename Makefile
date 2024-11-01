@@ -1,14 +1,19 @@
+ARCH=arm64
+CROSS_COMPILE=$(pwd)/aarch64--glibc--stable-2022.08-1/bin/aarch64-buildroot-linux-gnu-
+KERNEL_SRC=Linux_for_Tegra/kernel/linux-headers-*-linux_x86_64/3rdparty/canonical/linux-jammy/
+
 MAKEFILE_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST))))
 NVIDIA_CONFTEST ?= $(MAKEFILE_DIR)/out/nvidia-conftest
 
-all: nvidia-nvgpu-modules nvidia-oot-modules vc-mipi-driver-modules rp-imx296-modules
-install: nvidia-modules-install vc-mipi-driver-modules-install rp-imx296-modules-install 
+INSTALL_MOD_PATH = install/
+
+all: nvidia-nvgpu-modules nvidia-oot-modules vc-mipi-driver-modules
+install: nvidia-modules-install vc-mipi-driver-modules-install
 
 # Build a tarball for installation on Nano
 package: install
-	cp install.sh $(INSTALL_MOD_PATH)/
-	chmod 755 $(INSTALL_MOD_PATH)/install.sh
-	tar -C $(INSTALL_MOD_PATH)/ -cjvf install.tar.bz2 lib/ boot/ install.sh
+	install -m 755 install.sh $(INSTALL_MOD_PATH)
+	tar  -cjvf install.tar.bz2 $(INSTALL_MOD_PATH)
 
 vc-mipi-driver-modules: nvidia-oot-modules
 	$(MAKE) -j $(NPROC) \
