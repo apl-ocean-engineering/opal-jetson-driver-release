@@ -29,7 +29,7 @@ The `vc-mipi-driver` contain copies the VC module sources [from their repo](http
         tar -xf aarch64--glibc--stable-2022.08-1.tar.bz2
    ```
 
-6. Set the appropriate environment variables (I can't seem to put these in the Makefile, a project for later):
+6. Set the appropriate environment variables:
 
     ```shell
         source setup.sh
