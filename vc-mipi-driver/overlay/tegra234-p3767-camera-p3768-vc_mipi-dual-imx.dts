@@ -233,7 +233,6 @@ compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3768-0000+p3767-0001", "nv
 
                                                 vc_mipi_cam0: vc_mipi@1a {
                                                         reg                     = <0x1a>;
-                                                        reset-gpios = <&gpio CAM0_PWDN GPIO_ACTIVE_HIGH>;
 
                                                         compatible              = "nvidia,vc_mipi";
                                                         devnode                 = "video0";
@@ -333,7 +332,6 @@ compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3768-0000+p3767-0001", "nv
 
                                                 vc_mipi@1a {
                                                         reg                     = <0x1a>;
-                                                        reset-gpios = <&gpio CAM1_PWDN GPIO_ACTIVE_HIGH>;
 
                                                         compatible              = "nvidia,vc_mipi";
                                                         devnode                 = "video1";
@@ -431,15 +429,7 @@ compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3768-0000+p3767-0001", "nv
                                         f_number            = "2.0";
                                         aperture            = "0.0";
                                 };
-
-                                gpio@2200000 {
-                                        camera-control-output-low {
-                                                gpio-hog;
-                                                output-low;
-                                                gpios = <CAM0_PWDN 0 CAM1_PWDN 0>;
-                                                label = "cam0-pwdn","cam1-pwdn";
-                                        };
-                                };
+  
                         };
                 };
         };
