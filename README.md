@@ -1,4 +1,4 @@
-n.b. This repository is a mashup of the out-of-tree (OOT) kernel module build structure from [Allied Vision Alvium CSI Driver for Jetpack 6](https://github.com/alliedvision/alvium-jetson-driver-release), with the AVT kernel module removed, and the [Vision Components MIPI driver](https://github.com/VC-MIPI-modules/vc_mipi_nvidia) added.
+n.b. This repository is a mashup of the out-of-tree (OOT) kernel module build structure from [Allied Vision Alvium CSI Driver for Jetpack 6](https://github.com/alliedvision/alvium-jetson-driver-release) with the AVT kernel module removed; and the [Vision Components MIPI driver](https://github.com/VC-MIPI-modules/vc_mipi_nvidia) added.
 
 # Vision Components MIPI driver for Jetpack 6 
 
@@ -7,26 +7,41 @@ n.b. This repository is a mashup of the out-of-tree (OOT) kernel module build st
 Following the pattern from the [AVT driver package](https://github.com/alliedvision/alvium-jetson-driver-release), the four Nvidia OOT kernel packages are included as submodules:
 
  * `nvidia-hwpm`, `nvidia-nvethernetrm`, and `nvidia-nvgpu` use the upstream repos from _Nvidia's_ git server.
- * `nvidia-oot` points to [my nvidia-oot repo](https://github.com/apl-ocean-engineering/nvidia-oot) which contains the Nvidia OOT module source with the [VC patches](https://github.com/VC-MIPI-modules/vc_mipi_nvidia/tree/master/patch/kernel_Xavier_36.2.0%2B) applied.  
+ * `nvidia-oot` points to [my nvidia-oot repo](https://github.com/apl-ocean-engineering/nvidia-oot) which contains the **Nvidia** OOT module source with the [VC patches](https://github.com/VC-MIPI-modules/vc_mipi_nvidia/tree/master/patch/kernel_Xavier_36.2.0%2B) applied.  
 
 The `vc-mipi-driver` contain copies the VC module sources [from their repo](https://github.com/VC-MIPI-modules/vc_mipi_nvidia/tree/master/src), rearranged for this build system.
 
 ## Building
-1. Clone this repository including all submodules
-2. Download the Jetson Linux driver package (BSP) and cross compiler from: [Jetson Linux Downloads](https://developer.nvidia.com/embedded/jetson-linux)
+1. Clone this repository **including all submodules**
+
+    ```shell
+        git clone --recurse-submodules https://github.com/apl-ocean-engineering/vc-jetson-driver-release.git
+    ```
+
+    or:
+
+    ```shell
+        git clone https://github.com/apl-ocean-engineering/vc-jetson-driver-release.git
+        git submodule update --init
+    ```
+
+2. Download the Jetson Linux driver package (BSP) and cross compiler (registration with Nvidia required).   The driver package / BSP  **must** match your version of Jetpack:
+
+    * [Downloads for Jetpack 6.1 / Linux4Tegra 36.4](https://developer.nvidia.com/embedded/jetson-linux-r3640)
+
 3. Extract the driver package **in this directory**: 
     ```shell
-        tar -xf Jetson_Linux_r36*.tbz2
+        tar -xvf Jetson_Linux_r36*.tbz2
     ```
 4. Extract the kernel headers from the driver package in the `Linux_for_Tegra/kernel` directory:
     ```shell
         cd Linux_for_Tegra/kernel/
-        tar -xf kernel_headers.tbz2
+        tar -xvf kernel_headers.tbz2
     ```
 5. Extract the cross compiler **in this directory**:
    ```shell
         cd ../../
-        tar -xf aarch64--glibc--stable-2022.08-1.tar.bz2
+        tar -xvf aarch64--glibc--stable-2022.08-1.tar.bz2
    ```
 
 6. Set the appropriate environment variables:
@@ -80,6 +95,19 @@ This can be done either by building a new set of images and flashing them to the
    Which instructs the scripts to install the overlay "Camera VCMIPI Dual" (this name is baked into the overlay file `tegra234-p3767-camera-p3768-vc_mipi-dual-imx.dtbo`) for header "2" (the CSI Camera header).
 
    4. Confirm the changes have created a new entry in `/boot/extlinux/extlinux.conf`
+    A new entry something likethe following should exist (the args may vary)
+
+
+    ```shell
+    LABEL extlinux
+      MENU LABEL Vision Components cameras
+      LINUX /boot/Image
+      INITRD /boot/initrd
+      FDT /boot/tegra234-p3767-camera-p3768-vc_mipi-dual-imx.dtbo
+      APPEND ${cbootargs} root=PARTUUID=6b929ca4-a2b3-4d61-b7e3-47cffb186889 rw rootwait rootfstype=ext4 mminit_loglevel=4 console=ttyTCU0,115200 firmware_class.path=/etc/firmware fbcon=map:0 nospectre_bhb video=efifb:off console=tty0 nv-auto-config
+
+    ```
+
    5. Reboot
    
 # Beta Disclaimer
