@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-only
 // SPDX-FileCopyrightText: Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 //
-// This file is derived from the VC "tegra234-p3767-camera-p3768-vc_mipi-dual.dts"
-//
-// But has VC_MIPI_MANUFACTURER removed to only work with Sony IMX sensors for legibility
-// (not omnivision)
+// This file is derived from "tegra234-p3767-camera-p3768-vc_mipi-dual.dts"
+// as provided by Vision Components, but for legibility has the
+// #define VC_MIPI_MANUFACTURER removed so it only works with Sony IMX 
+// sensors (not Omnivision)
 
 /dts-v1/;
 /plugin/;
@@ -81,7 +81,8 @@
 / {
         overlay-name = "Camera VCMIPI Dual";
         jetson-header-name = "Jetson 24pin CSI Connector";
-compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3768-0000+p3767-0001", "nvidia,p3768-0000+p3767-0003", "nvidia,p3768-0000+p3767-0004", "nvidia,p3768-0000+p3767-0005";
+        compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3768-0000+p3767-0001", "nvidia,p3768-0000+p3767-0003", "nvidia,p3768-0000+p3767-0004", "nvidia,p3768-0000+p3767-0005",
+                        "nvidia,p3768-0000+p3767-0000-super", "nvidia,p3768-0000+p3767-0001-super", "nvidia,p3768-0000+p3767-0003-super", "nvidia,p3768-0000+p3767-0004-super", "nvidia,p3768-0000+p3767-0005-super";
         fragment@0 {
                 target-path = "/";
                 __overlay__ {
@@ -132,12 +133,7 @@ compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3768-0000+p3767-0001", "nv
                                                 orientation = "1";
                                                 cam_module0_drivernode0: drivernode0 {
                                                         pcl_id = "v4l2_sensor";
-                                                        devname = "vc_mipi 10-001a";
                                                         sysfs-device-tree = "/sys/firmware/devicetree/base/bus@0/cam_i2cmux/i2c@0/vc_mipi@1a";
-                                                };
-                                                cam_module0_drivernode1: drivernode1 {
-                                                        pcl_id = "v4l2_lens";
-                                                        sysfs-device-tree = "/sys/firmware/devicetree/base/bus@0/lens@vc_mipi";
                                                 };
                                         };
 #endif // VC_MIPI_CAM_0
@@ -149,13 +145,9 @@ compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3768-0000+p3767-0001", "nv
                                                 orientation = "1";
                                                 cam_module1_drivernode0: drivernode0 {
                                                         pcl_id = "v4l2_sensor";
-                                                        devname = "vc_mipi 9-001a";
                                                         sysfs-device-tree = "/sys/firmware/devicetree/base/bus@0/cam_i2cmux/i2c@1/vc_mipi@1a";
                                                 };
-                                                cam_module1_drivernode1: drivernode1 {
-                                                        pcl_id = "v4l2_lens";
-                                                        sysfs-device-tree = "/sys/firmware/devicetree/base/bus@0/lens@vc_mipi/";
-                                                };
+
                                         };
 #endif // VC_MIPI_CAM_1
                                 };
@@ -422,29 +414,8 @@ compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3768-0000+p3767-0001", "nv
 
                                 };
 
-                                lens@vc_mipi {
-                                        min_focus_distance  = "0.0";
-                                        hyper_focal         = "0.0";
-                                        focal_length        = "6.0";
-                                        f_number            = "2.0";
-                                        aperture            = "0.0";
-                                };
-  
                         };
                 };
         };
 
-        fragment@1 {
-		target = <&imx219_cam0>;
-		__overlay__ {
-			status = "disabled";
-		};
-        };
-
-        fragment@2 {
-		target = <&imx219_cam1>;
-		__overlay__ {
-			status = "disabled";
-		};
-        };
 };

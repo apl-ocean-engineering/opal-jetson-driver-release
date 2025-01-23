@@ -99,13 +99,15 @@ This can be done either by building a new set of images and flashing them to the
 
 
     ```shell
-    LABEL extlinux
-      MENU LABEL Vision Components cameras
-      LINUX /boot/Image
-      INITRD /boot/initrd
-      FDT /boot/tegra234-p3767-camera-p3768-vc_mipi-dual-imx.dtbo
-      APPEND ${cbootargs} root=PARTUUID=6b929ca4-a2b3-4d61-b7e3-47cffb186889 rw rootwait rootfstype=ext4 mminit_loglevel=4 console=ttyTCU0,115200 firmware_class.path=/etc/firmware fbcon=map:0 nospectre_bhb video=efifb:off console=tty0 nv-auto-config
+    DEFAULT JetsonIO
 
+    LABEL JetsonIO
+        MENU LABEL Custom Header Config: <CSI Allied Vision Alvium Dual>
+        LINUX /boot/Image
+        FDT /boot/dtb/kernel_tegra234-p3768-0000+p3767-0000-nv.dtb
+        INITRD /boot/initrd
+        APPEND ${cbootargs} root=PARTUUID=8ee022d3-6e8b-4ecf-9e37-1946eacdc6f6 rw rootwait rootfstype=ext4 mminit_loglevel=4 console=ttyTCU0,115200 firmware_class.path=/etc/firmware fbcon=map:0 nospectre_bhb video=efifb:off console=tty0 nv-auto-config
+        OVERLAYS /boot/tegra234-p3767-camera-p3768-alvium-dual.dtbo
     ```
 
    5. Reboot
