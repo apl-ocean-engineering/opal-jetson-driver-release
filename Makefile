@@ -9,7 +9,48 @@ install: nvidia-modules-install vc-mipi-driver-modules-install
 # to the relative path install/
 # Need -P option to _not_ strip the leading slash, 
 # so the regex (which includes the leading slash) works
+
+# mkdir -p vc_install/lib/modules/5.15.148-tegra/updates/drivers/media/platform/tegra/camera/
+# mkdir -p vc_install/lib/modules/5.15.148-tegra/updates/drivers/video/tegra/camera/
+# mkdir -p vc_install/boot
+
+# Delete the modules we _know_ we don't need
 package: install
+	rm $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/nv*
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/sound/
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/block
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/bluetooth
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/bmi088
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/cpuidle
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/crypto
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/devfreq
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/firmware
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/gpu
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/gpio
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/hwmon
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/i2c
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/mfd
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/misc
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/mtd
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/net
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/nv-p2p
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/nvpmodel
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/nvpps
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/nv-virtio
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/pci
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/pinctrl
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/power
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/pwm
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/ras
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/regulator
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/rtc
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/scsi
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/spi
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/thermal
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/tty
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/usb
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/virt
+	rm -r $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/watchdog
 	install -m 755 install.sh $(INSTALL_MOD_PATH)
 	tar --transform "flags=r;s|$(INSTALL_MOD_PATH)|install|" -Pcjf install.tar.bz2  $(INSTALL_MOD_PATH)
 
