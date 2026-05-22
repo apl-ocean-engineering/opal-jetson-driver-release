@@ -2,11 +2,11 @@
 	url = https://github.com/apl-ocean-engineering/nvidia-oot
 	path = nvidia-oot
 [submodule "nvidia-hwpm"]
-	url = https://nv-tegra.nvidia.com/r/linux-hwpm.git
+	url = https://gitlab.com/nvidia/nv-tegra/linux-hwpm.git
 	path = nvidia-hwpm
 [submodule "nvidia-nvethernetrm"]
-	url = https://nv-tegra.nvidia.com/r/kernel/nvethernetrm.git
+	url = https://gitlab.com/nvidia/nv-tegra/kernel/nvethernetrm.git
 	path = nvidia-nvethernetrm
 [submodule "nvidia-nvgpu"]
-	url = https://nv-tegra.nvidia.com/r/linux-nvgpu.git
+	url = https://gitlab.com/nvidia/nv-tegra/linux-nvgpu.git
 	path = nvidia-nvgpu
