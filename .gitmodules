@@ -1,12 +1,21 @@
 [submodule "nvidia-oot"]
 	url = https://github.com/apl-ocean-engineering/nvidia-oot
 	path = nvidia-oot
-[submodule "nvidia-hwpm"]
-	url = https://gitlab.com/nvidia/nv-tegra/linux-hwpm.git
-	path = nvidia-hwpm
 [submodule "nvidia-nvethernetrm"]
 	url = https://gitlab.com/nvidia/nv-tegra/kernel/nvethernetrm.git
-	path = nvidia-nvethernetrm
-[submodule "nvidia-nvgpu"]
-	url = https://gitlab.com/nvidia/nv-tegra/linux-nvgpu.git
-	path = nvidia-nvgpu
+	path = nvethernetrm
+[submodule "hwpm"]
+	path = hwpm
+	url = https://gitlab.com/nvidia/nv-tegra/linux-hwpm.git
+[submodule "nvgpu"]
+	path = nvgpu
+	url = https://gitlab.com/nvidia/nv-tegra/tegra/kernel-src/linux-nvgpu.git
+[submodule "nvdisplay"]
+	path = nvdisplay
+	url = https://gitlab.com/nvidia/nv-tegra/tegra/kernel-src/nv-kernel-display-driver.git
+[submodule "unifiedgpudisp"]
+	path = unifiedgpudisp
+	url = https://gitlab.com/nvidia/nv-tegra/tegra/kernel-src/nv-unified-gpu-display-driver.git
+[submodule "nvethernetrm"]
+	path = nvethernetrm
+	url = https://gitlab.com/nvidia/nv-tegra/kernel/nvethernetrm.git

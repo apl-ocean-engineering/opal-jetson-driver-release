@@ -1,6 +1,6 @@
 n.b. This repository is a mashup of the out-of-tree (OOT) kernel module build structure from [Allied Vision Alvium CSI Driver for Jetpack 6](https://github.com/alliedvision/alvium-jetson-driver-release) with the AVT kernel module removed; and the [Vision Components MIPI driver](https://github.com/VC-MIPI-modules/vc_mipi_nvidia) added.
 
-# Vision Components MIPI driver for Jetpack 6 
+# Vision Components MIPI driver for Jetpack 7.2 
 
 ## Submodule status:
 
@@ -27,11 +27,11 @@ The `vc-mipi-driver` contain copies the VC module sources [from their repo](http
 
 2. Download the Jetson Linux driver package (BSP) and cross compiler (registration with Nvidia required).   The driver package / BSP  **must** match your version of Jetpack:
 
-    * [Downloads for Jetpack 6.1 / Linux4Tegra 36.4](https://developer.nvidia.com/embedded/jetson-linux-r3640)
+    * [Downloads for Jetpack 7.2 / Linux4Tegra 39.2](https://developer.nvidia.com/embedded/jetpack/downloads)
 
 3. Extract the driver package **in this directory**: 
     ```shell
-        tar -xvf Jetson_Linux_r36*.tbz2
+        tar -xvf Jetson_Linux_r*.tbz2
     ```
 4. Extract the kernel headers from the driver package in the `Linux_for_Tegra/kernel` directory:
     ```shell
