@@ -4,6 +4,7 @@
 #include <media/tegra-v4l2-camera.h>
 #include <media/mc_common.h>
 #include <media/tegracam_core.h>
+#include <media/media-entity.h>
 #include "vc_mipi_core.h"
 #include "vc_mipi_modules.h"
 
@@ -51,7 +52,7 @@ struct tegra_channel *get_tegra_channel(struct tegracam_device *tc_dev)
                 return NULL;
         }
 
-        pad_csi = media_entity_remote_pad(&sd->entity.pads[0]);
+        pad_csi = media_pad_remote_pad_first(&sd->entity.pads[0]);
         if (NULL == pad_csi) {
                 vc_err(dev, "%s(): pad_csi is NULL!\n", __FUNCTION__);
                 return NULL;
@@ -63,7 +64,7 @@ struct tegra_channel *get_tegra_channel(struct tegracam_device *tc_dev)
                 return NULL;
         }
 
-        pad_vi = media_entity_remote_pad(&sd_csi->entity.pads[1]);
+        pad_vi = media_pad_remote_pad_first(&sd_csi->entity.pads[1]);
         if (NULL == pad_vi) {
                 vc_err(dev, "%s(): pad_vi is NULL!\n", __FUNCTION__);
                 return NULL;
@@ -784,7 +785,7 @@ static struct tegracam_ctrl_ops vc_ctrl_ops = {
 #endif
 };
 
-static int vc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+static int vc_probe(struct i2c_client *client)
 {
         // --------------------------------------------------------------------
         // NOTE: Don't modify this lines of code. It will cause a kernel crash.
@@ -872,14 +873,13 @@ unregister_subdev:
         return 0;
 }
 
-static int vc_remove(struct i2c_client *client)
+static void vc_remove(struct i2c_client *client)
 {
         struct camera_common_data *s_data = to_camera_common_data(&client->dev);
         struct tegracam_device *tc_dev = s_data->tegracam_ctrl_hdl->tc_dev;
 
         tegracam_v4l2subdev_unregister(tc_dev);
         tegracam_device_unregister(tc_dev);
-        return 0;
 }
 
 static const struct i2c_device_id vc_id[] = {

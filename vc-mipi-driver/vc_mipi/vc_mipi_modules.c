@@ -31,7 +31,7 @@
 
 int vc_mod_is_color_sensor(struct vc_desc *desc)
 {
-        if (desc->sen_type) {
+        if (desc) {
                 __u32 len = strnlen(desc->sen_type, 16);
                 if (len > 0 && len < 17) {
                         return *(desc->sen_type + len - 1) == 'C';

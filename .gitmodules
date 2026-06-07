@@ -7,15 +7,18 @@
 [submodule "hwpm"]
 	path = hwpm
 	url = https://gitlab.com/nvidia/nv-tegra/linux-hwpm.git
-[submodule "nvgpu"]
-	path = nvgpu
-	url = https://gitlab.com/nvidia/nv-tegra/tegra/kernel-src/linux-nvgpu.git
-[submodule "nvdisplay"]
-	path = nvdisplay
-	url = https://gitlab.com/nvidia/nv-tegra/tegra/kernel-src/nv-kernel-display-driver.git
-[submodule "unifiedgpudisp"]
-	path = unifiedgpudisp
-	url = https://gitlab.com/nvidia/nv-tegra/tegra/kernel-src/nv-unified-gpu-display-driver.git
 [submodule "nvethernetrm"]
 	path = nvethernetrm
 	url = https://gitlab.com/nvidia/nv-tegra/kernel/nvethernetrm.git
+[submodule "build/nvidia-public"]
+	path = build/nvidia-public
+	url = https://gitlab.com/nvidia/nv-tegra/kernel/build/nvidia-public.git
+[submodule "hardware/nvidia/tegra/nvidia-public"]
+	path = hardware/nvidia/tegra/nv-public
+	url = https://gitlab.com/nvidia/nv-tegra/device/hardware/nvidia/tegra-public-dts.git
+[submodule "hardware/nvidia/t23x/nvidia-public"]
+	path = hardware/nvidia/t23x/nv-public
+	url = https://gitlab.com/nvidia/nv-tegra/device/hardware/nvidia/t23x-public-dts.git
+[submodule "hardware/nvidia/t264/nvidia-public"]
+	path = hardware/nvidia/t264/nv-public
+	url = https://gitlab.com/nvidia/nv-tegra/device/hardware/nvidia/t264-public-dts.git
