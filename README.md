@@ -1,15 +1,21 @@
-n.b. This repository is a mashup of the out-of-tree (OOT) kernel module build structure from [Allied Vision Alvium CSI Driver for Jetpack 6](https://github.com/alliedvision/alvium-jetson-driver-release) with the AVT kernel module removed; and the [Vision Components MIPI driver](https://github.com/VC-MIPI-modules/vc_mipi_nvidia) added.
-
 # Vision Components MIPI driver for Jetpack 7.2 
+
+
+This repository is a mashup of Nvidia's out-of-tree (OOT) kernel module build structure with OPAL-specific elements added, including:
+
+* Patches from the [Vision Components MIPI driver](https://github.com/VC-MIPI-modules/vc_mipi_nvidia)
+* DTBs for the VC cameras on the Odometry Nano package.
 
 ## Submodule status:
 
-Following the pattern from the [AVT driver package](https://github.com/alliedvision/alvium-jetson-driver-release), the four Nvidia OOT kernel packages are included as submodules:
+Following the pattern from the Antmicro OOT repo, Nvidia repos are included as submodules:
 
- * `nvidia-hwpm`, `nvidia-nvethernetrm`, and `nvidia-nvgpu` use the upstream repos from _Nvidia's_ git server.
- * `nvidia-oot` points to [my nvidia-oot repo](https://github.com/apl-ocean-engineering/nvidia-oot) which contains the **Nvidia** OOT module source with the [VC patches](https://github.com/VC-MIPI-modules/vc_mipi_nvidia/tree/master/patch/kernel_Xavier_36.2.0%2B) applied.  
+ * `nvidia-hwpm`, and `nvidia-nvethernetrm` use the upstream repos from _Nvidia's_ git server.
+* The `nvidia-oot` submodule points to the our [fork](https://github.com/apl-ocean-engineering/nvidia-oot).   This includes patches from the VC driver.
+* OPAL-specified DTB overlays have been added to [hardware/nvidia/t23x/nv-public/](https://github.com/apl-ocean-engineering/opal-nvidia-t23x-public-dts) directory.
 
-The `vc-mipi-driver` contain copies the VC module sources [from their repo](https://github.com/VC-MIPI-modules/vc_mipi_nvidia/tree/master/src), rearranged for this build system.
+`vc-mipi-driver` contain the [VC module sources from their repo](https://github.com/VC-MIPI-modules/vc_mipi_nvidia/tree/master/src), rearranged for this build system.
+
 
 ## Building
 1. Clone this repository **including all submodules**
@@ -52,7 +58,7 @@ The `vc-mipi-driver` contain copies the VC module sources [from their repo](http
 
 7. Build everything:
     ```shell
-        make all 
+        make modules dtbs install
     ```
 
 8. Build a distributable package `install.tar.bz2`:

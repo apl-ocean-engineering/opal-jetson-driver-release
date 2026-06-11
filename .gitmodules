@@ -18,7 +18,7 @@
 	url = https://gitlab.com/nvidia/nv-tegra/device/hardware/nvidia/tegra-public-dts.git
 [submodule "hardware/nvidia/t23x/nvidia-public"]
 	path = hardware/nvidia/t23x/nv-public
-	url = https://gitlab.com/nvidia/nv-tegra/device/hardware/nvidia/t23x-public-dts.git
+	url = https://github.com/apl-ocean-engineering/opal-nvidia-t23x-public-dts.git
 [submodule "hardware/nvidia/t264/nvidia-public"]
 	path = hardware/nvidia/t264/nv-public
 	url = https://gitlab.com/nvidia/nv-tegra/device/hardware/nvidia/t264-public-dts.git
