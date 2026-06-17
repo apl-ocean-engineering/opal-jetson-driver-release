@@ -7,11 +7,7 @@ all:
 modules_install:
 	$(MAKE) -C $(KERNEL_SRC) M=$(SRC) modules_install
 
-overlay_install:
-	mkdir -p $(INSTALL_MOD_PATH)/boot/
-	install -m 0644 $(SRC)/overlay/tegra234-p3767-camera-p3768-vc_mipi-dual-imx.dtbo $(INSTALL_MOD_PATH)/boot/	
-
-install: modules_install overlay_install
+install: modules_install
 
 clean:
 	rm -f *.o *~ core .depend .*.cmd *.ko *.mod.c
