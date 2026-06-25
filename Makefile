@@ -41,10 +41,10 @@ help:
 	@echo   "   make clean            # to make clean driver sources"
 	@echo   "================================================================================"
 
-modules: hwpm nvidia-oot vc-mipi-driver
+modules: hwpm nvidia-oot
 dtbs: nvidia-dtbs
-modules_install: hwpm nvidia-oot vc-mipi-driver
-clean: hwpm nvidia-oot vc-mipi-driver \
+modules_install: hwpm nvidia-oot
+clean: hwpm nvidia-oot \
 	nvidia-dtbs-clean conftest-clean
 
 conftest:
@@ -129,77 +129,3 @@ conftest-clean:
 	@echo   "make $(MAKECMDGOALS) - conftest ..."
 	@echo   "================================================================================"
 	rm -fr $(NVIDIA_CONFTEST)
-
-
-## VC-Mipi Additions
-
-vc-mipi-driver: conftest nvidia-oot
-	@if [ ! -d "$(MAKEFILE_DIR)/vc-mipi-driver" ] ; then \
-		echo "Directory vc-mipi-driver is not found, exiting.."; \
-		false; \
-	fi
-	@echo   "================================================================================"
-	@echo   "make $(MAKECMDGOALS) - vc-mipi-driver ..."
-	@echo   "================================================================================"
-	$(MAKE) $(PARALLEL) ARCH=arm64 \
-		-C $(KERNEL_OUTPUT) \
-		KBUILD_EXTRA_SYMBOLS=$(MAKEFILE_DIR)/nvidia-oot/Module.symvers \
-		CONFIG_TEGRA_OOT_MODULE=y \
-		srctree.nvidia-oot=$(MAKEFILE_DIR)/nvidia-oot \
-		srctree.vc-mipi-driver=$(MAKEFILE_DIR)/vc-mipi-driver \
-		srctree.nvconftest=$(NVIDIA_CONFTEST) \
-		M=$(MAKEFILE_DIR)/vc-mipi-driver \
-		system_type=l4t \
-		$(MAKECMDGOALS)
-
-## Install
-
-install: modules_install dtbs-install
-	rm -f $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/nv*
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/sound/
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/block
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/bluetooth
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/bmi088
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/cpuidle
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/crypto
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/devfreq
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/firmware
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/gpu
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/gpio
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/hwmon
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/i2c
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/mfd
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/misc
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/mtd
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/net
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/nv-p2p
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/nvpmodel
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/nvpps
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/nvtzvault
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/nv-virtio
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/ivc_sample_server
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/pci
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/pinctrl
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/platform
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/power
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/pwm
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/ras
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/regulator
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/rtc
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/scsi
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/spi
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/thermal
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/tty
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/usb
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/virt
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/watchdog
-	install -m 755 install.sh $(INSTALL_MOD_PATH)
-	tar --transform "flags=r;s|$(INSTALL_MOD_PATH)|install|" -Pcjf install.tar.bz2  $(INSTALL_MOD_PATH)
-
-
-dtbs-install:
-	mkdir -p ${INSTALL_MOD_PATH}/boot/
-	cp build/nvidia-public/devicetree/generic-dtbs/* ${INSTALL_MOD_PATH}/boot/
-
-
-.PHONY: install installable

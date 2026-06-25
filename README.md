@@ -1,10 +1,8 @@
-# Vision Components MIPI driver for Jetpack 7.2 
+This is the repository for [OPAL](http://opal.apl.uw.edu/) Jetson out-of-tree kernel modules.
 
-
-This repository is a mashup of Nvidia's out-of-tree (OOT) kernel module build structure with OPAL-specific elements added, including:
-
-* Patches from the [Vision Components MIPI driver](https://github.com/VC-MIPI-modules/vc_mipi_nvidia)
-* DTBs for the VC cameras on the Odometry Nano package.
+* The `generic/` branches are general forks of the OOT build process, they are versioned by [Linux4Tegra distribution](https://developer.nvidia.com/embedded/jetson-linux-archive)
+* The `vc/` branches contain the kernel module for the [Vision Components MIPI driver](https://github.com/VC-MIPI-modules/vc_mipi_nvidia), and device tree overlays specific to the [odometry nano](https://depts.washington.edu/uwaplopal/research/subsea_odometry_nano.html).
+* The `trisect/` branches contain the kernel module for the [Allied Vision Alvium CSI2 cameras](https://github.com/alliedvision/alvium-csi2-driver) and device tree overlays specific to the [Trisect subsea camera.](https://rsa-perception-sensor.gitlab.io/trisect-docs/index.html)
 
 ## Submodule status:
 
@@ -14,26 +12,24 @@ Following the pattern from the Antmicro OOT repo, Nvidia repos are included as s
 * The `nvidia-oot` submodule points to the our [fork](https://github.com/apl-ocean-engineering/nvidia-oot).   This includes patches from the VC driver.
 * OPAL-specified DTB overlays have been added to [hardware/nvidia/t23x/nv-public/](https://github.com/apl-ocean-engineering/opal-nvidia-t23x-public-dts) directory.
 
-`vc-mipi-driver` contain the [VC module sources from their repo](https://github.com/VC-MIPI-modules/vc_mipi_nvidia/tree/master/src), rearranged for this build system.
-
 
 ## Building
 1. Clone this repository **including all submodules**
 
     ```shell
-        git clone --recurse-submodules https://github.com/apl-ocean-engineering/vc-jetson-driver-release.git
+        git clone --recurse-submodules https://github.com/apl-ocean-engineering/opal-jetson-driver-release.git
     ```
 
     or:
 
     ```shell
-        git clone https://github.com/apl-ocean-engineering/vc-jetson-driver-release.git
+        git clone https://github.com/apl-ocean-engineering/opal-jetson-driver-release.git
         git submodule update --init
     ```
 
 2. Download the Jetson Linux driver package (BSP) and cross compiler (registration with Nvidia required).   The driver package / BSP  **must** match your version of Jetpack:
 
-    * [Downloads for Jetpack 7.2 / Linux4Tegra 39.2](https://developer.nvidia.com/embedded/jetpack/downloads)
+    * [Downloads for Jetpack 7.2 / Linux4Tegra 39.2](https://developer.nvidia.com/embedded/jetpack/downloads/archive-7.2)
 
 3. Extract the driver package **in this directory**: 
     ```shell
@@ -47,7 +43,7 @@ Following the pattern from the Antmicro OOT repo, Nvidia repos are included as s
 5. Extract the cross compiler **in this directory**:
    ```shell
         cd ../../
-        tar -xvf aarch64--glibc--stable-2022.08-1.tar.bz2
+        tar -xvf x-tools.tbz2
    ```
 
 6. Set the appropriate environment variables:
@@ -70,7 +66,7 @@ At this point the rebuilt kernel modules -- including both the new VC modules an
 
 This can be done either by building a new set of images and flashing them to the device (essentially replacing the install process done through SDK Manager), or by installing them on an already-running module.  For simplicity, my focus is the latter ....
 
-## Installing on a running Nano
+## Installing on a running system
 
 1. Copy `install.tar.bz2`  to the device (called 'nano' in this case):
 

@@ -1,9 +1,6 @@
 [submodule "nvidia-oot"]
 	url = https://github.com/apl-ocean-engineering/nvidia-oot
 	path = nvidia-oot
-[submodule "nvidia-nvethernetrm"]
-	url = https://gitlab.com/nvidia/nv-tegra/kernel/nvethernetrm.git
-	path = nvethernetrm
 [submodule "hwpm"]
 	path = hwpm
 	url = https://gitlab.com/nvidia/nv-tegra/linux-hwpm.git
@@ -19,6 +16,3 @@
 [submodule "hardware/nvidia/t23x/nvidia-public"]
 	path = hardware/nvidia/t23x/nv-public
 	url = https://github.com/apl-ocean-engineering/opal-nvidia-t23x-public-dts.git
-[submodule "hardware/nvidia/t264/nvidia-public"]
-	path = hardware/nvidia/t264/nv-public
-	url = https://gitlab.com/nvidia/nv-tegra/device/hardware/nvidia/t264-public-dts.git
