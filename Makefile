@@ -41,10 +41,10 @@ help:
 	@echo   "   make clean            # to make clean driver sources"
 	@echo   "================================================================================"
 
-modules: hwpm nvidia-oot
+modules: hwpm nvidia-oot vc-mipi-driver
 dtbs: nvidia-dtbs
-modules_install: hwpm nvidia-oot
-clean: hwpm nvidia-oot \
+modules_install: hwpm nvidia-oot vc-mipi-driver
+clean: hwpm nvidia-oot vc-mipi-driver \
 	nvidia-dtbs-clean conftest-clean
 
 conftest:
@@ -130,10 +130,32 @@ conftest-clean:
 	@echo   "================================================================================"
 	rm -fr $(NVIDIA_CONFTEST)
 
-## Make package tarball
 
-package:
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/nv*
+## VC-Mipi Additions
+
+vc-mipi-driver: conftest nvidia-oot
+	@if [ ! -d "$(MAKEFILE_DIR)/vc-mipi-driver" ] ; then \
+		echo "Directory vc-mipi-driver is not found, exiting.."; \
+		false; \
+	fi
+	@echo   "================================================================================"
+	@echo   "make $(MAKECMDGOALS) - vc-mipi-driver ..."
+	@echo   "================================================================================"
+	$(MAKE) $(PARALLEL) ARCH=arm64 \
+		-C $(KERNEL_OUTPUT) \
+		KBUILD_EXTRA_SYMBOLS=$(MAKEFILE_DIR)/nvidia-oot/Module.symvers \
+		CONFIG_TEGRA_OOT_MODULE=y \
+		srctree.nvidia-oot=$(MAKEFILE_DIR)/nvidia-oot \
+		srctree.vc-mipi-driver=$(MAKEFILE_DIR)/vc-mipi-driver \
+		srctree.nvconftest=$(NVIDIA_CONFTEST) \
+		M=$(MAKEFILE_DIR)/vc-mipi-driver \
+		system_type=l4t \
+		$(MAKECMDGOALS)
+
+## Install
+
+install: modules_install dtbs-install
+	rm -f $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/nv*
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/sound/
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/block
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/bluetooth

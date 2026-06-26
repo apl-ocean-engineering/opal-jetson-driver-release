@@ -1,0 +1,1 @@
+NOTE!  This .dts is included for reference.  The "real" DTS is in the [t23x-public-dts][https://github.com/apl-ocean-engineering/opal-nvidia-t23x-public-dts] repository.
