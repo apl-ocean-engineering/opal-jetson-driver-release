@@ -129,3 +129,57 @@ conftest-clean:
 	@echo   "make $(MAKECMDGOALS) - conftest ..."
 	@echo   "================================================================================"
 	rm -fr $(NVIDIA_CONFTEST)
+
+## Make package tarball
+
+package:
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/nv*
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/sound/
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/block
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/bluetooth
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/bmi088
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/cpuidle
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/crypto
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/devfreq
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/firmware
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/gpu
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/gpio
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/hwmon
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/i2c
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/mfd
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/misc
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/mtd
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/net
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/nv-p2p
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/nvpmodel
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/nvpps
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/nvtzvault
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/nv-virtio
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/ivc_sample_server
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/pci
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/pinctrl
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/platform
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/power
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/pwm
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/ras
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/regulator
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/rtc
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/scsi
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/spi
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/thermal
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/tty
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/usb
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/virt
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/watchdog
+	rm -r $(INSTALL_MOD_PATH)/boot && mkdir $(INSTALL_MOD_PATH)/boot
+	cp -r build/nvidia-public/devicetree/generic-dtbs/* $(INSTALL_MOD_PATH)/boot
+	install -m 755 install.sh $(INSTALL_MOD_PATH)
+	tar --transform "flags=r;s|$(INSTALL_MOD_PATH)|install|" -Pcjf install.tar.bz2  $(INSTALL_MOD_PATH)
+
+
+dtbs-install:
+	mkdir -p ${INSTALL_MOD_PATH}/boot/
+	cp build/nvidia-public/devicetree/generic-dtbs/* ${INSTALL_MOD_PATH}/boot/
+
+
+.PHONY: install installable
