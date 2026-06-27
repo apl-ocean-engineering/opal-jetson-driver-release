@@ -171,7 +171,7 @@ package:
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/usb
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/virt
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/watchdog
-	rm -r $(INSTALL_MOD_PATH)/boot && mkdir $(INSTALL_MOD_PATH)/boot
+	rm -fr $(INSTALL_MOD_PATH)/boot && mkdir $(INSTALL_MOD_PATH)/boot
 	cp -r build/nvidia-public/devicetree/generic-dtbs/* $(INSTALL_MOD_PATH)/boot
 	install -m 755 install.sh $(INSTALL_MOD_PATH)
 	tar --transform "flags=r;s|$(INSTALL_MOD_PATH)|install|" -Pcjf install.tar.bz2  $(INSTALL_MOD_PATH)
