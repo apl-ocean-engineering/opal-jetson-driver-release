@@ -1,27 +1,27 @@
 This is the repository for [OPAL](http://opal.apl.uw.edu/) Jetson out-of-tree kernel modules.
 
-Every branch is versioned by by [Linux4Tegra distribution](https://developer.nvidia.com/embedded/jetson-linux-archive).
+Every branch is versioned by its [Linux4Tegra distribution](https://developer.nvidia.com/embedded/jetson-linux-archive) (e.g. `l4t-r36.5` aka Jetpack 6.2.2 is the current stable release).
 
-* The `generic/` branches contain non-camera-specific modifications:
-    * The [hwpm](https://gitlab.com/nvidia/nv-tegra/linux-hwpm.git), [nvethernetrm](https://gitlab.com/nvidia/nv-tegra/kernel/nvethernetrm.git), [build/nvidia-public](https://gitlab.com/nvidia/nv-tegra/kernel/build/nvidia-public.git)  and [hardware/nvidia/tegra/nv-public](https://gitlab.com/nvidia/nv-tegra/device/hardware/nvidia/tegra-public-dts.git) submodules all track the upstream repos from Nvidia Gitlab.
+* The `generic/l4t_*` branches contain non-camera-platform-specific modifications:
+    * The [`hwpm`](https://gitlab.com/nvidia/nv-tegra/linux-hwpm.git), [`nvethernetrm`](https://gitlab.com/nvidia/nv-tegra/kernel/nvethernetrm.git), [`build/nvidia-public`](https://gitlab.com/nvidia/nv-tegra/kernel/build/nvidia-public.git)  and [`hardware/nvidia/tegra/nv-public`](https://gitlab.com/nvidia/nv-tegra/device/hardware/nvidia/tegra-public-dts.git) submodules all track the upstream repos from Nvidia Gitlab.
 
-    * [nvidia-oot] tracks the `l4t/l4t_<distro>` branch from our [fork of nvidia-oot](https://github.com/apl-ocean-engineering/nvidia-oot) which generally tracks the [nvidia upstream](https://gitlab.com/nvidia/nv-tegra/linux-nv-oot.git) repo.
+    * `nvidia-oot` tracks the `l4t/l4t_<distro>` branch of [the OPAL fork of nvidia-oot](https://github.com/apl-ocean-engineering/nvidia-oot).  This branch generally tracks the [nvidia upstream](https://gitlab.com/nvidia/nv-tegra/linux-nv-oot.git) repo.
 
-    * [hardware/nvidia/t23x/nv-public](https://github.com/apl-ocean-engineering/opal-nvidia-t23x-public-dts.git) tracks the `apl/l4t_<distro>` branch.   We don't maintain separate branches for nano versus trisect because 
+    * [h`ardware/nvidia/t23x/nv-public`](https://github.com/apl-ocean-engineering/opal-nvidia-t23x-public-dts.git) tracks the `apl/l4t_<distro>` branch in [the OPAL fork of nvidia-t23x-public-dts](https://github.com/apl-ocean-engineering/opal-nvidia-t23x-public-dts).   We generally don't maintain separate branches for each camera platform because the separate DTBs don't conflict with each other (and this reduces the branch confusion).
 
-* The `vc/` branches are for [odometry nano](https://depts.washington.edu/uwaplopal/research/subsea_odometry_nano.html).
-    * Yhe kernel module from the [Vision Components MIPI driver](https://github.com/VC-MIPI-modules/vc_mipi_nvidia) is added directly to the branch.
+* The `vc/l4t_*` branches are specific to the [odometry nano.](https://depts.washington.edu/uwaplopal/research/subsea_odometry_nano.html)
+    * The kernel module from the [Vision Components MIPI driver](https://github.com/VC-MIPI-modules/vc_mipi_nvidia) is added commited directly to this repo.
 
-    * [nvidia-oot] uses the `vc/l4t_<distro>` branch from our [fork of nvidia-oot](https://github.com/apl-ocean-engineering/nvidia-oot) which includes OOT changes from VC.
+    * `nvidia-oot/` uses the `vc/l4t_*` branch which includes OOT changes from VC.
 
     * VC-specific DTBs are included in the shared [hardware/nvidia/t23x/nv-public](https://github.com/apl-ocean-engineering/opal-nvidia-t23x-public-dts.git) 
 
-* The `trisect/` branches are specific to the [Trisect subsea camera.](https://rsa-perception-sensor.gitlab.io/trisect-docs/index.html).
+* The `trisect/l4t_*` branches are specific to the [Trisect subsea camera.](https://rsa-perception-sensor.gitlab.io/trisect-docs/index.html)
     * The kernel module for the [Allied Vision Alvium CSI2 cameras](https://github.com/alliedvision/alvium-csi2-driver) is added as a submodule.
 
-    * [nvidia-oot] uses the `avt/l4t_<distro>` branch from our [fork of nvidia-oot](https://github.com/apl-ocean-engineering/nvidia-oot) which includes OOT changes from Antmicro and AVT.
+    * `nvidia-oot` uses the `avt/l4t_*` branch which includes OOT changes from Antmicro and AVT.
 
-    * VC-specific DTBs are included in the shared [hardware/nvidia/t23x/nv-public](https://github.com/apl-ocean-engineering/opal-nvidia-t23x-public-dts.git) 
+    * Antmicro / Allied Vision-specific DTBs are included in the shared [hardware/nvidia/t23x/nv-public](https://github.com/apl-ocean-engineering/opal-nvidia-t23x-public-dts.git) 
 
 
 
