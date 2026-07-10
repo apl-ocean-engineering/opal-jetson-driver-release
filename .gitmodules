@@ -16,3 +16,6 @@
 [submodule "hardware/nvidia/t23x/nvidia-public"]
 	path = hardware/nvidia/t23x/nv-public
 	url = https://github.com/apl-ocean-engineering/opal-nvidia-t23x-public-dts.git
+[submodule "alvium-csi2-driver"]
+	path = alvium-csi2-driver
+	url = https://github.com/alliedvision/alvium-csi2-driver.git

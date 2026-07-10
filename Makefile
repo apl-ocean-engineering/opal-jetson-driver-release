@@ -41,10 +41,10 @@ help:
 	@echo   "   make clean            # to make clean driver sources"
 	@echo   "================================================================================"
 
-modules: hwpm nvidia-oot
+modules: hwpm nvidia-oot alvium-csi2-driver
 dtbs: nvidia-dtbs
-modules_install: hwpm nvidia-oot
-clean: hwpm nvidia-oot \
+modules_install: hwpm nvidia-oot alvium-csi2-driver
+clean: hwpm nvidia-oot alvium-csi2-driver \
 	nvidia-dtbs-clean conftest-clean
 
 conftest:
@@ -130,9 +130,35 @@ conftest-clean:
 	@echo   "================================================================================"
 	rm -fr $(NVIDIA_CONFTEST)
 
+
+## Alvium additions
+
+alvium-csi2-driver: conftest nvidia-oot
+	@if [ ! -d "$(MAKEFILE_DIR)/alvium-csi2-driver" ] ; then \
+		echo "Directory alvium-csi2-driver is not found, exiting.."; \
+		false; \
+	fi
+	@echo   "================================================================================"
+	@echo   "make $(MAKECMDGOALS) - alvium-csi2-driver ..."
+	@echo   "================================================================================"
+	$(MAKE) $(PARALLEL) ARCH=arm64 \
+		-C $(KERNEL_OUTPUT) \
+		KBUILD_EXTRA_SYMBOLS=$(MAKEFILE_DIR)/nvidia-oot/Module.symvers \
+		CONFIG_TEGRA_OOT_MODULE=y \
+		srctree.nvidia-oot=$(MAKEFILE_DIR)/nvidia-oot \
+		srctree.alvium-csi2-driver=$(MAKEFILE_DIR)/alvium-csi2-driver \
+		srctree.nvconftest=$(NVIDIA_CONFTEST) \
+		M=$(MAKEFILE_DIR)/alvium-csi2-driver \
+		system_type=l4t \
+		$(MAKECMDGOALS)
+
 ## Make package tarball
 
 package:
+	make modules
+	make modules_install
+	make dtbs
+
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/nv*
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/sound/
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/block
@@ -145,7 +171,6 @@ package:
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/gpu
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/gpio
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/hwmon
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/i2c
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/mfd
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/misc
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/mtd
