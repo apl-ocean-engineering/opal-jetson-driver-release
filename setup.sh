@@ -9,7 +9,7 @@ export CROSS_COMPILE=$(pwd)/aarch64--glibc--stable-2022.08-1/bin/aarch64-linux-
 # see the README
 #export KERNEL_HEADERS=$(pwd)/Linux_for_Tegra/source/kernel/kernel-noble/
 
-export KERNEL_HEADERS=$(pwd)/Linux_for_Tegra/kernel/linux-headers-5.15.185-tegra-linux_x86_64/3rdparty/canonical/linux-jammy/kernel-source/
+export KERNEL_HEADERS=$(pwd)/Linux_for_Tegra/kernel/linux-headers-5.15.199-tegra-linux_x86_64/3rdparty/canonical/linux-jammy/kernel-source/
 export kernel_name=jammy
 
 export INSTALL_MOD_PATH=$(pwd)/install
