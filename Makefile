@@ -154,6 +154,10 @@ vc-mipi-driver: conftest nvidia-oot
 ## Make package tarball
 
 package:
+	make modules
+	make modules_install
+	make dtbs
+	
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/nv*
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/sound/
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/block
