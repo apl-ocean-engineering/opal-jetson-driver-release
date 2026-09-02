@@ -130,7 +130,6 @@ conftest-clean:
 	@echo   "================================================================================"
 	rm -fr $(NVIDIA_CONFTEST)
 
-
 ## VC-Mipi Additions
 
 vc-mipi-driver: conftest nvidia-oot
@@ -152,10 +151,10 @@ vc-mipi-driver: conftest nvidia-oot
 		system_type=l4t \
 		$(MAKECMDGOALS)
 
-## Install
+## Make package tarball
 
-install: modules_install dtbs-install
-	rm -f $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/nv*
+package:
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/nv*
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/sound/
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/block
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/bluetooth
