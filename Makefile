@@ -152,10 +152,13 @@ vc-mipi-driver: conftest nvidia-oot
 		system_type=l4t \
 		$(MAKECMDGOALS)
 
-## Install
+## Make package tarball
+package:
+	make modules
+	make modules_install
+	make dtbs
 
-install: modules_install dtbs-install
-	rm -f $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/nv*
+	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/nv*
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/sound/
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/block
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/bluetooth
@@ -167,7 +170,6 @@ install: modules_install dtbs-install
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/gpu
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/gpio
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/hwmon
-	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/i2c
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/mfd
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/misc
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/mtd
@@ -193,6 +195,8 @@ install: modules_install dtbs-install
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/usb
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/virt
 	rm -fr $(INSTALL_MOD_PATH)/lib/modules/*-tegra/updates/drivers/watchdog
+	rm -fr $(INSTALL_MOD_PATH)/boot && mkdir $(INSTALL_MOD_PATH)/boot
+	cp -r build/nvidia-public/devicetree/generic-dtbs/* $(INSTALL_MOD_PATH)/boot
 	install -m 755 install.sh $(INSTALL_MOD_PATH)
 	tar --transform "flags=r;s|$(INSTALL_MOD_PATH)|install|" -Pcjf install.tar.bz2  $(INSTALL_MOD_PATH)
 
@@ -201,5 +205,3 @@ dtbs-install:
 	mkdir -p ${INSTALL_MOD_PATH}/boot/
 	cp build/nvidia-public/devicetree/generic-dtbs/* ${INSTALL_MOD_PATH}/boot/
 
-
-.PHONY: install installable
