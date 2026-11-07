@@ -114,6 +114,64 @@ This can be done either by building a new set of images and flashing them to the
 
    5. Reboot
    
+
+
+#  Installing Jetpack from the command line
+
+1. Download the BSP and Root filesystem packages, then unpack
+
+```
+tar -xvf Jetson_Linux_r*.tbz2
+sudo tar xpf ${SAMPLE_FS_PACKAGE} -C Linux_for_Tegra/rootfs/
+cd Linux_for_Tegra/
+sudo ./tools/l4t_flash_prerequisites.sh
+```
+
+2. Apply the binaries
+
+```
+sudo ./apply_binaries.sh
+```
+
+3. Set up the initial user so you don't need to run oem-config
+
+```
+sudo tools/l4t_create_default_user.sh [-u <user>] [-p <pswd>] [-n <host>] [-a] [-h] [--accept-license]
+```
+
+for example:
+
+```
+sudo tools/l4t_create_default_user.sh -u sysop -p password -n forth --accept-license
+```
+
+
+
+4. (on the drysect) disable EEPROM read on boot
+
+Edit `Linux_for_Tegra/bootloader/generic/BCT/tegra234-mb2-bct-misc-p3767-0000.dts`
+
+```
+- cvb_eeprom_read_size = <0x100>
++ cvb_eeprom_read_size = <0x0>
+...
+
+
+5. Now flash:
+
+For both Nano Super and NX, installing to NVMe:
+
+```
+sudo ./l4t_initrd_flash.sh --erase-all jetson-orin-nano-devkit-super internal
+```
+
+
+NOTE to self:  Doesn't work on Ubuntu 26.04 right now.   Was able to run from within the Nvidia SDK Manager docker image.   using the SDK manager TUI **didn't** seem to work.
+
+Hm, couldn't get it working in Docker either.   without --network host, the network was never found.  With it, the NFS export didn't work?
+
+
+
 # Beta Disclaimer
 
 Please be aware that all code revisions not explicitly listed in the Github Release section are
